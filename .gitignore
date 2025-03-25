@@ -1,0 +1,41 @@
+# Build output
+bin/
+obj/
+
+# Rider / VS Code / VS specific folders
+.vscode/
+.idea/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# EF Core Migrations build cache
+**/Migrations/*.Designer.cs
+**/Migrations/*.csproj*
+
+# dotenv / local secrets (optional)
+.env
+*.secret.json
+
+# Optional: HTTP scratch files
+*.http
+
+# JetBrains Rider caches
+*.sln.iml
+
+# Auto-generated launchSettings.json
+**/Properties/launchSettings.json
+
+pgdata/
+
+appsettings.Local.json
