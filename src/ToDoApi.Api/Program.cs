@@ -25,6 +25,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddHttpContextAccessor();
+
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
@@ -33,9 +35,11 @@ builder.Services.AddScoped<IGetUserByEmailUseCase, GetUserByEmailUseCase>();
 builder.Services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
 builder.Services.AddScoped<ILogInUseCase, LogInUseCase>();
 builder.Services.AddScoped<IGetUserByIdUseCase, GetUserByIdUseCase>();
+builder.Services.AddScoped<IGetAuthenticatedUser, GetAuthenticatedUser>();
 
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Middlewares
 builder.Services.AddScoped<AuthenticationMiddleware>();
@@ -43,6 +47,7 @@ builder.Services.AddScoped<AuthenticationMiddleware>();
 // Shared
 builder.Services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
 builder.Services.AddScoped<ITokenManager, TokenManager>();
+builder.Services.AddScoped<ISessionContext, SessionContext>();
 
 // Register AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

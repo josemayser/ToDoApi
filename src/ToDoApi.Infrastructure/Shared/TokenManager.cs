@@ -49,7 +49,7 @@ public class TokenManager(IConfiguration configuration) : ITokenManager
                 ValidAudience = configuration["Jwt:Audience"],
                 ClockSkew = TimeSpan.Zero
             }, out _);
-            var userIdClaim = principal.FindFirst(JwtRegisteredClaimNames.Sub);
+            var userIdClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
             if (userIdClaim == null || !Guid.TryParse(userIdClaim.Value, out var userId))
             {
                 throw new TokenValidationException("Invalid token.");
