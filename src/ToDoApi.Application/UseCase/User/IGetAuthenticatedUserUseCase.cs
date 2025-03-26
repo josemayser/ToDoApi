@@ -1,6 +1,6 @@
 namespace ToDoApi.ToDoApi.Application.UseCase.User;
 
-public interface IGetAuthenticatedUser
+public interface IGetAuthenticatedUserUseCase
 {
     Domain.Model.User Execute();
 }

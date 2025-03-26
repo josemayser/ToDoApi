@@ -3,10 +3,10 @@ using ToDoApi.ToDoApi.Domain.Model;
 
 namespace ToDoApi.ToDoApi.Application.Service.Impl;
 
-public class UserService(IGetAuthenticatedUser getAuthenticatedUser) : IUserService
+public class UserService(IGetAuthenticatedUserUseCase getAuthenticatedUserUseCase) : IUserService
 {
     public User GetAuthenticatedUser()
     {
-        return getAuthenticatedUser.Execute();
+        return getAuthenticatedUserUseCase.Execute();
     }
 }

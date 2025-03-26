@@ -3,7 +3,7 @@ using ToDoApi.ToDoApi.Application.Shared;
 
 namespace ToDoApi.ToDoApi.Application.UseCase.User.Impl;
 
-public class GetAuthenticatedUser(ISessionContext sessionContext) : IGetAuthenticatedUser
+public class GetAuthenticatedUserUseCase(ISessionContext sessionContext) : IGetAuthenticatedUserUseCase
 {
     public Domain.Model.User Execute()
     {

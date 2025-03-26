@@ -6,6 +6,8 @@ using ToDoApi.ToDoApi.Application.Service.Impl;
 using ToDoApi.ToDoApi.Application.Shared;
 using ToDoApi.ToDoApi.Application.UseCase.Auth;
 using ToDoApi.ToDoApi.Application.UseCase.Auth.Impl;
+using ToDoApi.ToDoApi.Application.UseCase.Item;
+using ToDoApi.ToDoApi.Application.UseCase.Item.Impl;
 using ToDoApi.ToDoApi.Application.UseCase.User;
 using ToDoApi.ToDoApi.Application.UseCase.User.Impl;
 using ToDoApi.ToDoApi.Domain.Repository;
@@ -29,17 +31,24 @@ builder.Services.AddHttpContextAccessor();
 
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
 
 // Use cases
 builder.Services.AddScoped<IGetUserByEmailUseCase, GetUserByEmailUseCase>();
 builder.Services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
 builder.Services.AddScoped<ILogInUseCase, LogInUseCase>();
 builder.Services.AddScoped<IGetUserByIdUseCase, GetUserByIdUseCase>();
-builder.Services.AddScoped<IGetAuthenticatedUser, GetAuthenticatedUser>();
+builder.Services.AddScoped<IGetAuthenticatedUserUseCase, GetAuthenticatedUserUseCase>();
+builder.Services.AddScoped<IGetItemsByAuthenticatedUserUseCase, GetItemsByAuthenticatedUserUseCase>();
+builder.Services.AddScoped<IGetItemByIdUseCase, GetItemByIdUseCase>();
+builder.Services.AddScoped<ICreateItemUseCase, CreateItemUseCase>();
+builder.Services.AddScoped<IUpdateItemUseCase, UpdateItemUseCase>();
+builder.Services.AddScoped<IDeleteItemUseCase, DeleteItemUseCase>();
 
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IItemService, ItemService>();
 
 // Middlewares
 builder.Services.AddScoped<AuthenticationMiddleware>();
@@ -49,7 +58,7 @@ builder.Services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
 builder.Services.AddScoped<ITokenManager, TokenManager>();
 builder.Services.AddScoped<ISessionContext, SessionContext>();
 
-// Register AutoMapper
+// AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers(options => { options.Filters.Add<HttpExceptionFilter>(); }).AddJsonOptions(options =>
