@@ -3,13 +3,16 @@ using System.Text.Json;
 using ToDoApi.ToDoApi.Api.Filter;
 using ToDoApi.ToDoApi.Application.Service;
 using ToDoApi.ToDoApi.Application.Service.Impl;
+using ToDoApi.ToDoApi.Application.Shared;
 using ToDoApi.ToDoApi.Application.UseCase.Auth;
 using ToDoApi.ToDoApi.Application.UseCase.Auth.Impl;
 using ToDoApi.ToDoApi.Application.UseCase.User;
 using ToDoApi.ToDoApi.Application.UseCase.User.Impl;
 using ToDoApi.ToDoApi.Domain.Repository;
+using ToDoApi.ToDoApi.Infrastructure.Middleware;
 using ToDoApi.ToDoApi.Infrastructure.Persistence;
 using ToDoApi.ToDoApi.Infrastructure.Persistence.Repository;
+using ToDoApi.ToDoApi.Infrastructure.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,18 +25,27 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register AutoMapper
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Use cases
 builder.Services.AddScoped<IGetUserByEmailUseCase, GetUserByEmailUseCase>();
 builder.Services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
+builder.Services.AddScoped<ILogInUseCase, LogInUseCase>();
+builder.Services.AddScoped<IGetUserByIdUseCase, GetUserByIdUseCase>();
 
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Middlewares
+builder.Services.AddScoped<AuthenticationMiddleware>();
+
+// Shared
+builder.Services.AddScoped<IPasswordHasher, BcryptPasswordHasher>();
+builder.Services.AddScoped<ITokenManager, TokenManager>();
+
+// Register AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers(options => { options.Filters.Add<HttpExceptionFilter>(); }).AddJsonOptions(options =>
 {
@@ -58,7 +70,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 }
 
 app.UseHttpsRedirection();
-
+app.UseMiddleware<AuthenticationMiddleware>();
 app.MapControllers();
 
 app.Run();

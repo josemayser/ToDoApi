@@ -10,7 +10,7 @@ public class GetUserByEmailUseCase(IUserRepository userRepository) : IGetUserByE
         var user = await userRepository.GetByEmailAsync(email);
         if (user == null)
         {
-            throw new UserNotFoundException($"User with email: '{email}' not found.");
+            throw new UserNotFoundException($"User with email: {email} not found.");
         }
 
         return user;
